@@ -1,4 +1,6 @@
 using System.Security.Claims;
+using HotChocolate;
+using HotChocolate.AspNetCore;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
@@ -8,6 +10,7 @@ namespace StarWars
 {
     public class Startup
     {
+
         // This method gets called by the runtime. Use this method to add services to the container.
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
@@ -15,6 +18,17 @@ namespace StarWars
             // Add the custom services like repositories etc ...
             services.AddSingleton<CharacterRepository>();
             services.AddSingleton<ReviewRepository>();
+
+            var schema = SchemaBuilder.New()
+            .AddDocumentFromString(
+                @"
+                type Query {
+                    hello: String
+                }")
+            .AddResolver("Query", "hello", () => "world")
+            .Create();
+
+            services.AddGraphQL(schema);
 
             // Add Authorization Policy
             services.AddAuthorization(options =>
@@ -50,6 +64,9 @@ namespace StarWars
             }
 
             app.UseWebSockets();
+
+            app.UseGraphQL();
+            app.UseGraphiQL();
         }
     }
 }
