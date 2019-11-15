@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using StarWars.Data;
+using StarWars.Services;
 
 namespace StarWars
 {
@@ -18,6 +19,9 @@ namespace StarWars
             // Add the custom services like repositories etc ...
             services.AddSingleton<CharacterRepository>();
             services.AddSingleton<ReviewRepository>();
+            services.AddSingleton<StarshipRepository>();
+            services.AddSingleton<StarshipService>();
+            services.AddSingleton<CharacterService>();
 
             var schema = SchemaBuilder.New()
             .AddDocumentFromString(
