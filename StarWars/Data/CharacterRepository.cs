@@ -8,12 +8,10 @@ namespace StarWars.Data
     public class CharacterRepository
     {
         private Dictionary<string, ICharacter> _characters;
-        private Dictionary<string, Starship> _starships;
 
         public CharacterRepository()
         {
             _characters = CreateCharacters().ToDictionary(t => t.Id);
-            _starships = CreateStarships().ToDictionary(t => t.Id);
         }
 
         public ICharacter GetHero(Episode episode)
@@ -54,20 +52,13 @@ namespace StarWars.Data
             return null;
         }
 
-        public IEnumerable<object> Search(string text)
+        public IEnumerable<ICharacter> Search(string text)
         {
             foreach (ICharacter character in _characters.Values
                 .Where(t => t.Name.Contains(text,
                     StringComparison.OrdinalIgnoreCase)))
             {
                 yield return character;
-            }
-
-            foreach (Starship starship in _starships.Values
-                .Where(t => t.Name.Contains(text,
-                    StringComparison.OrdinalIgnoreCase)))
-            {
-                yield return starship;
             }
         }
 
@@ -132,16 +123,6 @@ namespace StarWars.Data
                 Friends = new[] { "1000", "1002", "1003" },
                 AppearsIn = new[] { Episode.NewHope, Episode.Empire, Episode.Jedi },
                 PrimaryFunction = "Astromech"
-            };
-        }
-
-        private static IEnumerable<Starship> CreateStarships()
-        {
-            yield return new Starship
-            {
-                Id = "3000",
-                Name = "TIE Advanced x1",
-                Length = 9.2
             };
         }
     }
