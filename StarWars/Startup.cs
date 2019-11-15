@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using StarWars.Data;
+using StarWars.Types;
 
 namespace StarWars
 {
@@ -19,16 +20,15 @@ namespace StarWars
             services.AddSingleton<CharacterRepository>();
             services.AddSingleton<ReviewRepository>();
 
-            var schema = SchemaBuilder.New()
-            .AddDocumentFromString(
-                @"
-                type Query {
-                    hello: String
-                }")
-            .AddResolver("Query", "hello", () => "world")
-            .Create();
+            services.AddGraphQL(sp => Schema.Create(c =>
+            {
+                c.RegisterServiceProvider(sp);
 
-            services.AddGraphQL(schema);
+                c.RegisterType<HumanType>();
+                c.RegisterType<DroidType>();
+                c.RegisterType<EpisodeType>();
+                c.RegisterType<StarshipType>();
+            }));
 
             // Add Authorization Policy
             services.AddAuthorization(options =>
