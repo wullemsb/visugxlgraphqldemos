@@ -1,14 +1,8 @@
 using System.Security.Claims;
-using HotChocolate;
-using HotChocolate.AspNetCore;
-using HotChocolate.AspNetCore.Voyager;
-using HotChocolate.Execution.Configuration;
-using HotChocolate.Subscriptions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using StarWars.Data;
-using StarWars.Types;
 
 namespace StarWars
 {
@@ -21,30 +15,6 @@ namespace StarWars
             // Add the custom services like repositories etc ...
             services.AddSingleton<CharacterRepository>();
             services.AddSingleton<ReviewRepository>();
-
-            // Add in-memory event provider
-            services.AddInMemorySubscriptionProvider();
-
-            // Add GraphQL Services
-            services.AddGraphQL(sp => SchemaBuilder.New()
-                .AddServices(sp)
-
-                // Adds the authorize directive and
-                // enable the authorization middleware.
-                .AddAuthorizeDirectiveType()
-
-                .AddQueryType<QueryType>()
-                .AddMutationType<MutationType>()
-                .AddSubscriptionType<SubscriptionType>()
-                .AddType<HumanType>()
-                .AddType<DroidType>()
-                .AddType<EpisodeType>()
-                .Create(),
-                new QueryExecutionOptions
-                {
-                    TracingPreference = TracingPreference.Always
-                });
-
 
             // Add Authorization Policy
             services.AddAuthorization(options =>
@@ -79,12 +49,7 @@ namespace StarWars
                 app.UseDeveloperExceptionPage();
             }
 
-            app
-                .UseWebSockets()
-                .UseGraphQL("/graphql")
-                .UseGraphiQL("/graphql")
-                .UsePlayground("/graphql")
-                .UseVoyager("/graphql");
+            app.UseWebSockets();
         }
     }
 }
