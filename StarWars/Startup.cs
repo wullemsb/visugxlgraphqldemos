@@ -32,6 +32,8 @@ namespace StarWars
                 c.RegisterType<DroidType>();
                 c.RegisterType<EpisodeType>();
                 c.RegisterType<StarshipType>();
+
+                c.RegisterQueryType<QueryType>();
             }));
 
             // Add Authorization Policy
