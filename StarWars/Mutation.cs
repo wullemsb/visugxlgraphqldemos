@@ -1,4 +1,6 @@
-﻿using StarWars.Data;
+﻿using HotChocolate;
+using HotChocolate.Subscriptions;
+using StarWars.Data;
 using StarWars.Models;
 using System;
 using System.Collections.Generic;
@@ -17,10 +19,11 @@ namespace StarWars
                 ?? throw new ArgumentNullException(nameof(repository));
         }
 
-        public Review CreateReview(
-            Episode episode, Review review)
+        public async Task<Review> CreateReview(
+            Episode episode, Review review, [Service]IEventSender eventSender)
         {
             _repository.AddReview(episode, review);
+            await eventSender.SendAsync(new OnReviewMessage(episode, review));
             return review;
         }
     }

@@ -7,6 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 using StarWars.Data;
 using StarWars.Types;
 using StarWars.Services;
+using HotChocolate.Subscriptions;
 
 namespace StarWars
 {
@@ -25,6 +26,15 @@ namespace StarWars
             services.AddSingleton<CharacterService>();
             services.AddSingleton<SearchService>();
 
+            services.AddSingleton<Query>();
+            services.AddSingleton<Mutation>();
+            services.AddSingleton<Subscription>();
+
+            // Add in-memory event provider
+            var eventRegistry = new InMemoryEventRegistry();
+            services.AddSingleton<IEventRegistry>(eventRegistry);
+            services.AddSingleton<IEventSender>(eventRegistry);
+
 
             services.AddGraphQL(sp => Schema.Create(c =>
             {
@@ -37,6 +47,7 @@ namespace StarWars
 
                 c.RegisterQueryType<QueryType>();
                 c.RegisterMutationType<MutationType>();
+                c.RegisterSubscriptionType<SubscriptionType>();
             }));
 
             // Add Authorization Policy
