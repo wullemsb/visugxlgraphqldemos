@@ -10,10 +10,12 @@ namespace StarWars
     public class Query
     {
         private readonly CharacterService _characterService;
+        private readonly SearchService _searchService;
 
-        public Query(CharacterService characterService)
+        public Query(CharacterService characterService, SearchService searchService)
         {
             _characterService = characterService;
+            _searchService = searchService;
         }
 
         public Human GetHuman(string id)
@@ -29,6 +31,11 @@ namespace StarWars
         public IEnumerable<ICharacter> GetHeros(Episode episode)
         {
             return _characterService.GetHeros(episode);
+        }
+
+        public IEnumerable<object> Search(string text)
+        {
+            return _searchService.Search(text);
         }
     }
 }

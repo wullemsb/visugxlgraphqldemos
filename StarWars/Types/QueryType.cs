@@ -21,6 +21,9 @@ namespace StarWars.Types
             descriptor.Field(t => t.GetHeros(default))
                 .Type<ListType<CharacterType>>()
                 .Argument("episode", a => a.DefaultValue(Episode.NewHope));
+
+            descriptor.Field(t => t.Search(default))
+              .Type<ListType<SearchResultType>>();
         }
     }
 }

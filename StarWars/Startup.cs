@@ -23,6 +23,8 @@ namespace StarWars
             services.AddSingleton<StarshipRepository>();
             services.AddSingleton<StarshipService>();
             services.AddSingleton<CharacterService>();
+            services.AddSingleton<SearchService>();
+
 
             services.AddGraphQL(sp => Schema.Create(c =>
             {
