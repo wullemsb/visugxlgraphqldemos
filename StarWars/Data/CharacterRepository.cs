@@ -14,13 +14,9 @@ namespace StarWars.Data
             _characters = CreateCharacters().ToDictionary(t => t.Id);
         }
 
-        public ICharacter GetHero(Episode episode)
+        public IEnumerable<ICharacter> GetHeros(Episode episode)
         {
-            if (episode == Episode.Empire)
-            {
-                return _characters["1000"];
-            }
-            return _characters["2001"];
+            return _characters.Values.Where(c => c.AppearsIn.Contains(episode));
         }
 
         public ICharacter GetCharacter(string id)
