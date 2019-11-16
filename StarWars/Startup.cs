@@ -36,6 +36,7 @@ namespace StarWars
                 c.RegisterType<StarshipType>();
 
                 c.RegisterQueryType<QueryType>();
+                c.RegisterMutationType<MutationType>();
             }));
 
             // Add Authorization Policy
