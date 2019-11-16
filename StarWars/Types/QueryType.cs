@@ -1,4 +1,5 @@
 ﻿using HotChocolate.Types;
+using StarWars.Models;
 using StarWars.Services;
 using System;
 using System.Collections.Generic;
@@ -16,6 +17,10 @@ namespace StarWars.Types
 
             descriptor.Field(t => t.GetDroid(default))
                 .Argument("id", a => a.Type<NonNullType<IdType>>());
+
+            descriptor.Field(t => t.GetHeros(default))
+                .Type<ListType<CharacterType>>()
+                .Argument("episode", a => a.DefaultValue(Episode.NewHope));
         }
     }
 }

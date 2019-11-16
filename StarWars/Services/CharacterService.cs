@@ -17,9 +17,9 @@ namespace StarWars.Services
                 ?? throw new ArgumentNullException(nameof(repository));
         }
 
-        public ICharacter GetHero(Episode episode)
+        public IEnumerable<ICharacter> GetHeros(Episode episode)
         {
-            return _repository.GetHero(episode);
+            return _repository.GetHeros(episode);
         }
 
         public Human GetHuman(string id)

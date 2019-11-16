@@ -25,5 +25,10 @@ namespace StarWars
         {
             return _characterService.GetDroid(id);
         }
+
+        public IEnumerable<ICharacter> GetHeros(Episode episode)
+        {
+            return _characterService.GetHeros(episode);
+        }
     }
 }

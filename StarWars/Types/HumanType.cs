@@ -9,5 +9,9 @@ namespace StarWars.Types
 {
     public class HumanType:ObjectType<Human>
     {
+        protected override void Configure(IObjectTypeDescriptor<Human> descriptor)
+        {
+            descriptor.Interface<CharacterType>();
+        }
     }
 }

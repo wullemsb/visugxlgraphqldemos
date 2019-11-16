@@ -7,7 +7,11 @@ using System.Threading.Tasks;
 
 namespace StarWars.Types
 {
-    public class DroidType:ObjectType<Droid>
+    public class DroidType : ObjectType<Droid>
     {
+        protected override void Configure(IObjectTypeDescriptor<Droid> descriptor)
+        {
+            descriptor.Interface<CharacterType>();
+        }
     }
 }
