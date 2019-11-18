@@ -7,7 +7,12 @@ using System.Threading.Tasks;
 
 namespace StarWars.Types
 {
-    public class CharacterType: InterfaceType<ICharacter>
+    public class CharacterType : InterfaceType<ICharacter>
     {
+        protected override void Configure(IInterfaceTypeDescriptor<ICharacter> descriptor)
+        {
+            descriptor.Field("friends")
+                .Type<ListType<CharacterType>>();
+        }
     }
 }
