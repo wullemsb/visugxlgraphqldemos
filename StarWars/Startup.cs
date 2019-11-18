@@ -30,6 +30,8 @@ namespace StarWars
             services.AddSingleton<Mutation>();
             services.AddSingleton<Subscription>();
 
+            services.AddDataLoaderRegistry();
+
             // Add in-memory event provider
             var eventRegistry = new InMemoryEventRegistry();
             services.AddSingleton<IEventRegistry>(eventRegistry);

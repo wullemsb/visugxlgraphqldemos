@@ -58,6 +58,14 @@ namespace StarWars.Data
             }
         }
 
+        public ILookup<string, ICharacter> GetFriendsByCharacters(IReadOnlyList<string> characterIds)
+        {
+            return _characters.Values
+              .Where(c => characterIds.Contains(c.Id))
+              .SelectMany(c => c.Friends.Select(friend => new { Id = c.Id, Result = GetCharacter(friend) }))
+              .ToLookup(k => k.Id, r => r.Result);
+        }
+
         private static IEnumerable<ICharacter> CreateCharacters()
         {
             yield return new Human

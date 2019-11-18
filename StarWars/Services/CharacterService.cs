@@ -42,6 +42,12 @@ namespace StarWars.Services
             }
         }
 
+        public Task<ILookup<string, ICharacter>> GetFriendsByCharacters(
+            IReadOnlyList<string> characterIds)
+        {
+            return Task.FromResult(_repository.GetFriendsByCharacters(characterIds));
+        }
+
         public IEnumerable<ICharacter> Search(string text)
         {
             return _repository.Search(text);

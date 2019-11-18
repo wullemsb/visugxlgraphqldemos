@@ -1,4 +1,6 @@
-﻿using HotChocolate;
+﻿using GreenDonut;
+using HotChocolate;
+using HotChocolate.Resolvers;
 using HotChocolate.Types;
 using StarWars.Models;
 using StarWars.Services;
@@ -15,9 +17,16 @@ namespace StarWars.Types
         {
             descriptor.Interface<CharacterType>();
             descriptor.Field(d => d.Friends)
-                 .Resolver(ctx => ctx.Service<CharacterService>()
-                                    .GetCharacter(ctx.Parent<ICharacter>()
-                                                     .Friends.ToArray()))
+                 .Resolver(ctx => {
+                     var service = ctx.Service<CharacterService>();
+
+                     IDataLoader<string, ICharacter[]> characterDataLoader =
+                       ctx.GroupDataLoader<string, ICharacter>(
+                           "charactersByFriends",
+                           service.GetFriendsByCharacters);
+
+                     return characterDataLoader.LoadAsync(ctx.Parent<ICharacter>().Id);
+                 }) 
                  .Type<ListType<CharacterType>>()
                  .Name("friends");
         }
